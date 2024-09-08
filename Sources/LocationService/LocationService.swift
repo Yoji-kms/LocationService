@@ -26,15 +26,17 @@ public final class LocationService: NSObject {
     
     var completion: ()->Void = {}
     
-    func getLocation(completion: @escaping (Coordinates)->Void) {
+    public func getLocation(completion: @escaping (Float, Float)->Void) {
         self.manager.requestLocation()
         guard
-            let newCoordinates = self.manager.location?.coordinate.coordinates
+            let newCoordinate = self.manager.location?.coordinate
         else {
-            completion(Coordinates())
+            completion(0, 0)
             return
         }
-        completion(newCoordinates)
+        let newLat = Float(newCoordinate.latitude)
+        let newLon = Float(newCoordinate.longitude)
+        completion(newLat, newLon)
     }
     
     public func requestWhenInUseAuthorization(completion: @escaping ()->Void) {
