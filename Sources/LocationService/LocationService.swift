@@ -20,7 +20,7 @@ public final class LocationService: NSObject {
         return authorizationStatus == .authorizedAlways || authorizationStatus == .authorizedWhenInUse
     }
     
-    var isNotDeterminedAuthorization: Bool {
+    public var isNotDeterminedAuthorization: Bool {
         return self.manager.authorizationStatus == .notDetermined
     }
     
