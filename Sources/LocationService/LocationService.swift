@@ -8,14 +8,14 @@
 import Foundation
 import CoreLocation
 
-final class LocationService: NSObject {
+public final class LocationService: NSObject {
     private lazy var manager: CLLocationManager = {
         let manager = CLLocationManager()
         manager.delegate = self
         return manager
     }()
     
-    var isAuthorized: Bool {
+    public var isAuthorized: Bool {
         let authorizationStatus = self.manager.authorizationStatus
         return authorizationStatus == .authorizedAlways || authorizationStatus == .authorizedWhenInUse
     }
@@ -37,7 +37,7 @@ final class LocationService: NSObject {
         completion(newCoordinates)
     }
     
-    func requestWhenInUseAuthorization(completion: @escaping ()->Void) {
+    public func requestWhenInUseAuthorization(completion: @escaping ()->Void) {
         if self.manager.authorizationStatus == .notDetermined {
             self.manager.requestWhenInUseAuthorization()
             self.completion = completion
@@ -46,15 +46,15 @@ final class LocationService: NSObject {
 }
 
 extension LocationService: CLLocationManagerDelegate {
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+    public func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
         completion()
     }
     
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    public func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         manager.stopUpdatingLocation()
     }
     
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
+    public func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
         print("🔴 CoreLocation error: \(error.localizedDescription)")
     }
 }
